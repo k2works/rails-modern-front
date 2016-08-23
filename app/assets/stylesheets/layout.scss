@@ -1,0 +1,11 @@
+// Place all the styles related to the layout controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.verticalcenter {
+  position:relative;
+  top:50%;left:50%;
+  width:400px;
+  height:300px;
+  margin-left:-200px;
+  margin-top:-150px;
+}
