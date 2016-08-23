@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   get 'form/form_control'
 
-  get 'form/message'
-
   get 'layout/gird'
 
   root 'dashboard#index'
