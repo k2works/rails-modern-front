@@ -78,7 +78,6 @@ rerun.txt
 pickle-email-*.html
 
 config/initializers/secret_token.rb
-config/secrets.yml
 
 # dotenv
 .env
@@ -103,3 +102,7 @@ bower.json
 
 # Ignore Byebug command history file.
 .byebug_history
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
