@@ -12,12 +12,19 @@ development:
   database: development
 
 test:
-  <<: *default
   adapter: sqlite3
   pool: 5
   timeout: 5000
   database: db/test.sqlite3
 
+staging:
+  <<: *default
+  database: staging
+
 production:
   <<: *default
-  database: production
+  database: <%= ENV['RDS_DB_NAME'] %>
+  username: <%= ENV['RDS_USERNAME'] %>
+  password: <%= ENV['RDS_PASSWORD'] %>
+  host: <%= ENV['RDS_HOSTNAME'] %>
+  port: <%= ENV['RDS_PORT'] %>
