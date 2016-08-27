@@ -3,8 +3,22 @@ $(document).on "turbolinks:load", ->
     if(!confirm('閉じてよろしいですか？'))
       e.preventDefault()
 
+  $('#mymodal4').on 'hide.bs.modal', ->
+    if(!confirm('閉じてよろしいですか？'))
+      e.preventDefault()
+
   $ ->
   $(".alert-close").click (e) ->
     e.preventDefault()
     $('#myalert').alert('close')
+
+  $ ->
+  $(".modal-show").click (e) ->
+    e.preventDefault()
+    $('#mymodal').modal('show');
+
+  $ ->
+  $(".modal-hide").click (e) ->
+    e.preventDefault()
+    $('#mymodal').modal('show');
 
