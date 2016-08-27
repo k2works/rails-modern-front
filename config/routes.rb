@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'java_script/js'
+
   get 'user_interface/ui'
 
   get 'form/form_control'
