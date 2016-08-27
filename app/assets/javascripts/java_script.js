@@ -5,11 +5,11 @@ $(document).on("turbolinks:load", function() {
             e.preventDefault();
         }
     });
-});
 
-$(function() {
-    return $(".alert-close").click(function(e) {
-        e.preventDefault();
-        return $('#myalert').alert('close');
+    $(function() {
+        return $(".alert-close").click(function(e) {
+            e.preventDefault();
+            return $('#myalert').alert('close');
+        });
     });
 });
