@@ -15,10 +15,28 @@ $(document).on "turbolinks:load", ->
   $ ->
   $(".modal-show").click (e) ->
     e.preventDefault()
-    $('#mymodal').modal('show');
+    $('#mymodal').modal('show')
 
   $ ->
   $(".modal-hide").click (e) ->
     e.preventDefault()
-    $('#mymodal').modal('show');
+    $('#mymodal').modal('hide')
+
+  $ ->
+  $(".modal-hide").click (e) ->
+    $('[data-toggle=tooltip').tooltip()
+
+  $ ->
+    $('[data-toggle=tooltip').tooltip()
+
+  $ ->
+  $(".tooltip-show").click (e) ->
+    $('#mybutton').tooltip('show')
+
+  $ ->
+  $(".tooltip-hide").click (e) ->
+    $('#mybutton').tooltip('hide')
+
+  $ ->
+    $('[data-toggle=popover').popover()
 
