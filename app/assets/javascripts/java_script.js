@@ -46,7 +46,57 @@ $(document).on("turbolinks:load", function() {
             return $('#mybutton').tooltip('hide');
         })
     });
+
     $(function () {
         $('[data-toggle=popover').popover();
     });
+
+    var menus = ['メニュー1','メニュー2','メニュー3'];
+    var menu_selected = {};
+
+    $(function () {
+        // ドロップダウンリストが開かれようとするときのイベント
+        $('#mydropdown2').on('show.bs.dropdown', function (e) {
+            var icon;
+            var ul = $('#menulist');
+            ul.empty();
+            // メニューを動的に作成する
+            $.each(menus, function(i) {
+                icon = "";
+                if (menu_selected[i]) {
+                    icon = "<span class='glyphicon glyphicon-ok'></span>";
+                }
+                ul.append("<li role='presentation'>" +
+                    "<a href='#' data-index='" + i +
+                    "' tabindex='-1'>" + icon + this + "</a></li>");
+            });
+        });
+
+        // メニュー項目がクリックされた時のイベント
+        $('#menulist').on('click', function (e) {
+            e.preventDefault();
+            var index = $(e.target).attr('data-index');
+            if(index !== undefined) {
+                menu_selected[index] = menu_selected[index] ? false : true;
+            }
+        });
+    });
+
+    $(function () {
+        $('#mybutton2').on('click', function (e) {
+            var btn = $(this);
+            btn.button('loading');
+            // 話を簡単にするため2000ミリ秒後に実行するが、
+            // 実際は、Ajaxの処理が終わった時などに呼び出すことになる
+            setTimeout(function () {
+                btn.button('reset');
+            }, 2000);
+        });
+    });
+
 });
+
+$('.link-show-dropdown').on('mouseover', function(e) {
+    $('#mylabel').dropdown('toggle');
+});
+

@@ -40,3 +40,47 @@ $(document).on "turbolinks:load", ->
   $ ->
     $('[data-toggle=popover').popover()
 
+  menus = [
+    'メニュー1'
+    'メニュー2'
+    'メニュー3'
+  ]
+  menu_selected = {}
+  $ ->
+  # ドロップダウンリストが開かれようとするときのイベント
+    $('#mydropdown2').on 'show.bs.dropdown', (e) ->
+      icon = undefined
+      ul = $('#menulist')
+      ul.empty()
+      # メニューを動的に作成する
+      $.each menus, (i) ->
+        icon = ''
+        if menu_selected[i]
+          icon = '<span class=\'glyphicon glyphicon-ok\'></span>'
+        ul.append '<li role=\'presentation\'>' + '<a href=\'#\' data-index=\'' + i + '\' tabindex=\'-1\'>' + icon + this + '</a></li>'
+        return
+      return
+    # メニュー項目がクリックされた時のイベント
+    $('#menulist').on 'click', (e) ->
+      e.preventDefault()
+      index = $(e.target).attr('data-index')
+      if index != undefined
+        menu_selected[index] = if menu_selected[index] then false else true
+      return
+    return
+  $ ->
+    $('#mybutton2').on 'click', (e) ->
+      btn = $(this)
+      btn.button 'loading'
+      # 話を簡単にするため2000ミリ秒後に実行するが、
+      # 実際は、Ajaxの処理が終わった時などに呼び出すことになる
+      setTimeout (->
+        btn.button 'reset'
+        return
+      ), 2000
+      return
+    return
+
+$('.link-show-dropdown').on 'mouseover', (e) ->
+  $('#mylabel').dropdown 'toggle'
+  return
