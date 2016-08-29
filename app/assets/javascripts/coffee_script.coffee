@@ -85,3 +85,58 @@ $(document).on "turbolinks:load", ->
       ), 2000
       return
     return
+
+  $ ->
+    $('.btn_tab1').on 'click', (e) ->
+      $('#mytab a:first').tab 'show'
+      return
+    return
+  $ ->
+    $('.btn_tab2').on 'click', (e) ->
+      $('#mytab li:eq(1) a').tab 'show'
+      return
+    return
+  $ ->
+    $('.btn_tab3').on 'click', (e) ->
+      $('#mytab a:last').tab 'show'
+      return
+    return
+
+  $ ->
+    $('.btn_tab1').on 'click', (e) ->
+      $('#mytab a:first').tab 'show'
+      return
+    return
+  $ ->
+    $('.btn_tab2').on 'click', (e) ->
+      $('#mytab li:eq(1) a').tab 'show'
+      return
+    return
+  $ ->
+    $('.btn_tab3').on 'click', (e) ->
+      $('#mytab a:last').tab 'show'
+      return
+    return
+  $('#mytab2').on 'show.bs.tab', (e) ->
+    fromTab = e.relatedTarget
+    toTab = e.target
+    if !confirm(fromTab.innerHTML + 'から' + toTab.innerHTML + 'に切り替えます。よろしいですか?')
+      e.preventDefault()
+    return
+
+  $ ->
+    $('.btn_collapse_show').on 'click', (e) ->
+      $('#closepanel').collapse 'show'
+      return
+    return
+  $ ->
+    $('.btn_collapse_hide').on 'click', (e) ->
+      $('#closepanel').collapse 'hide'
+      return
+    return
+  $ ->
+    $('#closepanel2').on 'hide.bs.collapse', (e) ->
+      if !confirm('閉じてよろしいですか?')
+        e.preventDefault()
+      return
+    return
