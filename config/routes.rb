@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'java_script/js'
+  get 'java_script/affix'
 
   get 'user_interface/ui'
 
