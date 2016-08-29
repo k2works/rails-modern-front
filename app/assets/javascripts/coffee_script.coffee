@@ -40,6 +40,11 @@ $(document).on "turbolinks:load", ->
   $ ->
     $('[data-toggle=popover').popover()
 
+
+  $('.link-show-dropdown').on 'mouseover', (e) ->
+    $('#mylabel').dropdown 'toggle'
+    return
+
   menus = [
     'メニュー1'
     'メニュー2'
@@ -80,7 +85,3 @@ $(document).on "turbolinks:load", ->
       ), 2000
       return
     return
-
-$('.link-show-dropdown').on 'mouseover', (e) ->
-  $('#mylabel').dropdown 'toggle'
-  return

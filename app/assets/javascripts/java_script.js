@@ -51,6 +51,10 @@ $(document).on("turbolinks:load", function() {
         $('[data-toggle=popover').popover();
     });
 
+    $('.link-show-dropdown').on('mouseover', function(e) {
+        $('#mylabel').dropdown('toggle');
+    });
+
     var menus = ['メニュー1','メニュー2','メニュー3'];
     var menu_selected = {};
 
@@ -95,8 +99,3 @@ $(document).on("turbolinks:load", function() {
     });
 
 });
-
-$('.link-show-dropdown').on('mouseover', function(e) {
-    $('#mylabel').dropdown('toggle');
-});
-
