@@ -466,4 +466,187 @@ $(document).on 'turbolinks:load', ->
         $('body').append '<div style="height: 1000px;"></div>'
       return
     return
+  $ ->
+# クリック数
+    count = 0
+    # 紹介文
+    messages = [
+      '(1)「技評タブレット」の特徴を紹介します。'
+      '(2)本商品は弊社コンテンツ閲覧専用タブレットです。'
+      '(3)過去の書籍を全て読めます。'
+      '(4)また、今後発売する書籍も安価で閲覧可能です。'
+    ]
+    # [実行]ボタンを押した時の処理を設定
+    $('#execButton15').click ->
+# 配列の値を読み込む
+      text = messages[count]
+      # 文字列を出力
+      $('#output15').val text
+      # クリック数の更新
+      count++
+      # クリック数が配列数以上なら[0]に戻す
+      if count >= messages.length
+        count = 0
+      return
+    return
+  $ ->
+# [実行]ボタンを押した時の処理を設定
+    $('#execButton16').click ->
+# 文字列を取得
+      text = $('#userText16').val()
+      # 配列に変換
+      arr = text.split(' ')
+      # リストの格納先を作成
+      ul = $('<ul>')
+      # リストを作成
+      i = 0
+      while i < arr.length
+        li = $('<li>')
+        li.text arr[i]
+        ul.append li
+        i++
+      # 文字列を出力
+      div = $('<div>').append(ul)
+      $('#output16').val div.html()
+      # Webページにリストを表示
+      $('#output16-2').html ul
+      return
+    return
+  $ ->
+# 変数「count」を初期化する
+    count = 0
+    # 定期処理を開始する
+    id = setInterval((->
+# 画像を全て非表示にする
+      $('#animImg > img').hide()
+      # 変数「count」番目の画像だけ表示状態にする
+      $('#animImg > img').eq(count).show()
+      # 変数「count」を1増やす
+      count++
+      # 変数「count」を3の場合は「0」に戻す
+      count = count % 3
+      return
+    ), 500)
+    # [停止]ボタンを押した時の処理を設定
+    $('#execButton17').click ->
+# 定期処理を解除
+      clearInterval id
+      return
+    return
+  $ ->
+# 対応の確認
+    if !window.File or !window.FileReader or !window.FileList or !window.Blob
+      return
+    # ファイル選択変更時の処理を設定
+    $('#fileButton18').change (event) ->
+# 変更されたファイル情報の一覧を配列として取得
+      files = event.target.files
+      # ファイル情報を1つずつ得て処理していく
+      i = 0
+      while i < files.length
+# ファイル情報を1つ取得
+        f = files[i]
+        # ファイル情報を出力
+        console.log 'ファイル名:' + f.name
+        console.log '種類:' + f.type
+        console.log 'サイズ:' + f.size
+        # ファイル読み取り用の「FileReader」を作成
+        reader = new FileReader
+        # ファイル読み取り完了時のイベント
+
+        reader.onload = (e) ->
+          `var i`
+          # 文字列取得
+          text = e.target.result
+          # 行数を追加
+          arr = text.split('\n')
+          i = 0
+          while i < arr.length
+            arr[i] = i + ' : ' + arr[i]
+            i++
+          text = arr.join('\n')
+          # 文字列を表示
+          $('#output18').val text
+          return
+
+        # テキストとして読み込む
+        reader.readAsText f, 'shift-jis'
+        i++
+      return
+    $ ->
+# 対応の確認
+      if !window.File or !window.FileReader or !window.FileList or !window.Blob
+        return
+      # 通常のイベントをキャンセルする関数
+
+      cancelEvent = (event) ->
+        event.preventDefault()
+        event.stopPropagation()
+        return
+
+      # ファイルを読み込む関数
+
+      dropFileEvent = (event) ->
+# 通常のイベントのキャンセル
+        cancelEvent event
+        # ファイル一覧の取得
+        files = event.originalEvent.dataTransfer.files
+        # 各ファイルに対して処理を実施
+        i = 0
+        while i < files.length
+# ファイルの取得
+          f = files[i]
+          # ファイルの読み取り
+          reader = new FileReader
+          # 読み取り完了時のイベントを登録
+
+          reader.onload = (e) ->
+# Data URL形式のデータを取り出す
+            text = e.target.result
+            # img要素を作成
+            img = $('<img>')
+            img.attr 'src', text
+            # 画像を表示
+            $('#output19').append img
+            return
+
+          # Data URL形式で読み取り
+          reader.readAsDataURL f
+          i++
+        return
+
+      # イベントの設定
+      $('#drop').on
+        'dragenter': cancelEvent
+        'dragover': cancelEvent
+        'dragleave': cancelEvent
+        'drop': dropFileEvent
+      return
+    $ ->
+# [実行]ボタンを押した時の処理を設定
+      $('#execButton20').click ->
+# 文字列を取得
+        text = $('#userText20').val()
+        # トリム
+        text = text.trim()
+        # 配列に変換
+        arr = text.split('\n')
+        # ソート
+        arr.sort (a, b) ->
+# 各要素をカンマ区切りで配列化
+          nameA = a.split(',')[1]
+          nameB = b.split(',')[1]
+          # 読みの値を比較
+          if nameA < nameB
+            return -1
+          if nameA > nameB
+            return 1
+          0
+        # 配列を結合
+        text = arr.join('\n')
+        # 文字列を出力
+        $('#output20').val text
+        return
+      return
+    return
   return
