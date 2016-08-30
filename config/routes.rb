@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'java_script_sample/chap01'
+
   get 'java_script/js'
   get 'java_script/affix'
 

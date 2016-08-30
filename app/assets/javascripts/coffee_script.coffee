@@ -140,3 +140,17 @@ $(document).on "turbolinks:load", ->
         e.preventDefault()
       return
     return
+
+  $ ->
+    $('#mycarousel_left').on 'click', (e) ->
+      $('#mycarousel').carousel 1
+      return
+    return
+
+  $ ->
+    $('#mycarousel3').on 'slide.bs.carousel', (e) ->
+      if !confirm('切り替えても、よろしいですか?')
+        $('#mycarousel2').carousel('pause');
+        e.preventDefault()
+      return
+    return
