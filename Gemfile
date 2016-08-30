@@ -59,3 +59,5 @@ group :development do
   gem 'guard-livereload', '~> 2.5', require: false
   gem 'rack-livereload'
 end
+
+gem 'js_cookie_rails'
