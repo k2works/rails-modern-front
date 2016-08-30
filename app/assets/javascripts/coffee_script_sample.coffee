@@ -349,4 +349,121 @@ $(document).on 'turbolinks:load', ->
       $('#output10').text '訪問回数をリセットしました。'
       return
     return
+  $ ->
+# [実行]ボタンを押した時の処理を設定
+    $('#execButton11').click ->
+# 文字列を取得
+      text = $('#userText11').val()
+      # マークダウン記法変換
+      # マークダウン記法変換関数(簡易)
+
+      markdown = (argText) ->
+# 強調
+        argText = argText.replace(/\*(.+?)\*/g, '<b>$1</b>')
+        # タイトル
+        argText = argText.replace(/^## *(.+?)$/gm, '<h2>$1</h2>')
+        argText = argText.replace(/^# *(.+?)$/gm, '<h1>$1</h1>')
+        # 改行
+        argText = argText.replace(/¥n/g, '<br>¥n')
+        # 戻り値を戻して終了
+        argText
+
+      text = markdown(text)
+      # 文字列を出力
+      $('#output11').val text
+      # プレビューを表示
+      $('#output11-2').html text
+      return
+    return
+  $ ->
+# [実行]ボタンを押した時の処理を設定
+    $('#execButton12').click ->
+# URLとタイトルを取得
+      title = $('#userTitle').val()
+      url = $('#userUrl').val()
+      # リンクの作成
+      # リンクの作成
+
+      makeLink = (argTitle, argUrl) ->
+# DOMの作成
+        a = $('<a>')
+        a.text argTitle
+        a.attr 'href', argUrl
+        # divで囲う
+        div = $('<div>').append(a)
+        # 文字列を出力
+        $('#output12').val div.html()
+        # リンクを出力
+        $('#output12-2').html a
+        return
+
+      makeLink title, url
+      return
+    return
+  $ ->
+# [実行]ボタンを押した時の処理を設定
+    $('#execButton13').click ->
+# 文字列を取得
+      text = $('#userText13').val()
+      # リンクに変換
+      text = text.replace(/^(.+?),(.+?)$/gm, (s, s1, s2) ->
+        '<a href="' + s2 + '">' + s1 + '</a>'
+      )
+      # 改行を変換
+      text = text.replace(/\n/g, '<br>\n')
+      # 改行を出力
+      $('#output13').val text
+      # プレビュー
+      $('#output13-2').html text
+      return
+    return
+  $ ->
+# マウスオーバー時の説明表示を追加
+    $('a.link').hover (->
+# マウスが要素に乗った時の処理
+      ele = $(this)
+      title = ele.attr('title')
+      $('#output14').val title
+      return
+    ), ->
+# マウスが要素から外れた時の処理
+      $('#output14').val ''
+      return
+    return
+  $ ->
+# 状態遷移時の処理を設定
+    $('#sel').change ->
+# 選択した項目の文字列を取得
+      text = $('#sel option:selected').text()
+      # 文字列を表示
+      $('#output14-2').text text
+      return
+    return
+  $ ->
+# [送信]ボタンを押した時の処理を設定
+    $('#myForm').submit (e) ->
+# 入力欄の値を取得
+      text = $('#userText14-3').val()
+      # 表示の分位
+      if text != ''
+        $('#output14-3').text '送信しました。'
+      else
+        $('#output14-3').text '全て入力してください。'
+        e.preventDefault()
+      return
+    return
+  $ ->
+# スクロール時の処理
+    $(window).scroll (e) ->
+# ドキュメントの高さを取得
+      h = $(document).height()
+      # 現在のスクロール位置を計算
+      # (スクロールの上端とウインドウ高さの合計)
+      pos = $(window).scrollTop() + $(window).height()
+      # 末尾か確認
+      if h == pos
+# 高さ1000pxの要素を追加
+        $('body').append '<div style="height: 1000px;"></div>'
+      return
+    return
   return
