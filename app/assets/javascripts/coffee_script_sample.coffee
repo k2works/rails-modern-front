@@ -573,80 +573,163 @@ $(document).on 'turbolinks:load', ->
         reader.readAsText f, 'shift-jis'
         i++
       return
-    $ ->
+    return
+  $ ->
 # 対応の確認
-      if !window.File or !window.FileReader or !window.FileList or !window.Blob
-        return
-      # 通常のイベントをキャンセルする関数
+    if !window.File or !window.FileReader or !window.FileList or !window.Blob
+      return
+    # 通常のイベントをキャンセルする関数
 
-      cancelEvent = (event) ->
-        event.preventDefault()
-        event.stopPropagation()
-        return
+    cancelEvent = (event) ->
+      event.preventDefault()
+      event.stopPropagation()
+      return
 
-      # ファイルを読み込む関数
+    # ファイルを読み込む関数
 
-      dropFileEvent = (event) ->
+    dropFileEvent = (event) ->
 # 通常のイベントのキャンセル
-        cancelEvent event
-        # ファイル一覧の取得
-        files = event.originalEvent.dataTransfer.files
-        # 各ファイルに対して処理を実施
-        i = 0
-        while i < files.length
+      cancelEvent event
+      # ファイル一覧の取得
+      files = event.originalEvent.dataTransfer.files
+      # 各ファイルに対して処理を実施
+      i = 0
+      while i < files.length
 # ファイルの取得
-          f = files[i]
-          # ファイルの読み取り
-          reader = new FileReader
-          # 読み取り完了時のイベントを登録
+        f = files[i]
+        # ファイルの読み取り
+        reader = new FileReader
+        # 読み取り完了時のイベントを登録
 
-          reader.onload = (e) ->
+        reader.onload = (e) ->
 # Data URL形式のデータを取り出す
-            text = e.target.result
-            # img要素を作成
-            img = $('<img>')
-            img.attr 'src', text
-            # 画像を表示
-            $('#output19').append img
-            return
+          text = e.target.result
+          # img要素を作成
+          img = $('<img>')
+          img.attr 'src', text
+          # 画像を表示
+          $('#output19').append img
+          return
 
-          # Data URL形式で読み取り
-          reader.readAsDataURL f
-          i++
-        return
-
-      # イベントの設定
-      $('#drop').on
-        'dragenter': cancelEvent
-        'dragover': cancelEvent
-        'dragleave': cancelEvent
-        'drop': dropFileEvent
+        # Data URL形式で読み取り
+        reader.readAsDataURL f
+        i++
       return
-    $ ->
+
+    # イベントの設定
+    $('#drop').on
+      'dragenter': cancelEvent
+      'dragover': cancelEvent
+      'dragleave': cancelEvent
+      'drop': dropFileEvent
+    return
+  $ ->
 # [実行]ボタンを押した時の処理を設定
-      $('#execButton20').click ->
+    $('#execButton20').click ->
 # 文字列を取得
-        text = $('#userText20').val()
-        # トリム
-        text = text.trim()
-        # 配列に変換
-        arr = text.split('\n')
-        # ソート
-        arr.sort (a, b) ->
+      text = $('#userText20').val()
+      # トリム
+      text = text.trim()
+      # 配列に変換
+      arr = text.split('\n')
+      # ソート
+      arr.sort (a, b) ->
 # 各要素をカンマ区切りで配列化
-          nameA = a.split(',')[1]
-          nameB = b.split(',')[1]
-          # 読みの値を比較
-          if nameA < nameB
-            return -1
-          if nameA > nameB
-            return 1
-          0
-        # 配列を結合
-        text = arr.join('\n')
-        # 文字列を出力
-        $('#output20').val text
-        return
+        nameA = a.split(',')[1]
+        nameB = b.split(',')[1]
+        # 読みの値を比較
+        if nameA < nameB
+          return -1
+        if nameA > nameB
+          return 1
+        0
+      # 配列を結合
+      text = arr.join('\n')
+      # 文字列を出力
+      $('#output20').val text
       return
+    return
+  $ ->
+# オブジェクトを作成
+    obj =
+      name: 'りんご'
+      price: 100
+      color: '赤'
+    # 文字列を出力1
+    $('#output21').append '文字列を出力1\n'
+    $('#output21').append 'obj.name : ' + obj.name + '\n'
+    $('#output21').append 'obj.price : ' + obj.price + '\n'
+    $('#output21').append 'obj.color : ' + obj.color + '\n'
+    $('#output21').append '<hr>'
+    # 文字列を出力2
+    $('#output21').append '文字列を出力2\n'
+    $('#output21').append 'obj.name : ' + obj['name'] + '\n'
+    $('#output21').append 'obj.price : ' + obj['price'] + '\n'
+    $('#output21').append 'obj.color : ' + obj['color'] + '\n'
+    $('#output21').append '<hr>'
+    # 値の書き換え
+    obj.name = 'apple'
+    obj['price'] = 200
+    $('#output21').append '値の書き換え\n'
+    $('#output21').append 'obj.name : ' + obj.name + '\n'
+    $('#output21').append 'obj.price : ' + obj.price + '\n'
+    $('#output21').append '<hr>'
+    # プロパティの追加
+    obj.taste = '甘酸っぱい'
+    $('#output21').append 'プロパティの追加\n'
+    $('#output21').append 'obj.taste : ' + obj.taste + '\n'
+    $('#output21').append '<hr>'
+    # 空のオブジェクトを作成
+    obj2 = {}
+    # オブジェクトに様々値を追加
+
+    obj2.myFnc = ->
+      'fnc'
+
+    obj2.myArr = [
+      10
+      11
+      12
+    ]
+    obj2.myObj =
+      name: 'hogehoge'
+      price: 99
+    $('#output21').append 'オブジェクトに様々な値を追加\n'
+    $('#output21').append 'obj2.myFnc : ' + obj2.myFnc() + '\n'
+    $('#output21').append 'obj2.myArr : ' + obj2.myArr + '\n'
+    $('#output21').append 'obj2.myObj : ' + obj2.myObj + '\n'
+    return
+  $ ->
+# windowオブジェクトの中身を出力
+    for key of window
+      $('#output22').append key + ' : ' + window[key] + '\n'
+    return
+  $ ->
+# 関数オブジェクトを作成
+
+    fruit = (name, price) ->
+# 外部からアクセス可能なプロパティ
+      @name = name
+      @price = price
+      # 外部からアクセスできない変数
+      type = 'fruit'
+      # 外部からアクセス可能なメソッド
+
+      @toString = ->
+        @name + ', ' + @price + ', ' + type
+
+      return
+
+    # new演算子でオブジェクトを作る
+    apple = new fruit('りんご', 100)
+    banana = new fruit('ばなな', 90)
+    # 文字列を出力
+    $('#output23').append 'apple.name : ' + apple.name + '\n'
+    $('#output23').append 'apple.price : ' + apple.price + '\n'
+    $('#output23').append 'apple.toString : ' + apple.toString() + '\n'
+    $('#output23').append '<hr>'
+    $('#output23').append 'banana.name : ' + banana.name + '\n'
+    $('#output23').append 'banana.price : ' + banana.price + '\n'
+    $('#output23').append 'banana.toString : ' + banana.toString() + '\n'
     return
   return
