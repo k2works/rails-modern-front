@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'java_script_sample/js_sample_canvas'
   get 'java_script_sample/js_sample'
 
   get 'java_script/js'
