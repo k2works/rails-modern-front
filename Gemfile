@@ -61,3 +61,4 @@ group :development do
 end
 
 gem 'js_cookie_rails'
+gem 'jquery-easing-rails'
