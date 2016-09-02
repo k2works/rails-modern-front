@@ -120,7 +120,7 @@ $(document).on("turbolinks:load", function() {
 
             //画像のフェードイン
             function open(){
-                tnList[current].attr('src', 'images/tn' + current+'_ac.jpg');
+                //tnList[current].attr('src','images/tn'+current+'_ac.jpg');
                 $(photoList[current]).stop().fadeOut(1200,'easeOutQuad');
             }
 

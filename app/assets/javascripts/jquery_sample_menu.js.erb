@@ -1,0 +1,225 @@
+$(document).on("turbolinks:load", function() {
+  $(function () {
+
+    function accordionMenu(target){
+
+      var items = new Array();
+      var boxes = new Array();
+      var current;
+
+      function slideBox(index){
+        if( current != undefined && current != index ) close();
+        current = index;
+        switch (boxes[current].prop('mode')){
+          case 'open': close(); break;
+          case 'close': open(); break;
+        }
+      }
+
+      function open(){
+        boxes[current].prop('mode','open').stop().slideDown();
+        items[current].attr('src', get_asset(current));
+      }
+
+      function close(){
+        boxes[current].prop('mode','close').stop().slideUp();
+        items[current].attr('src', get_asset(current));
+      }
+
+      function init(){
+        $.each( target.find('dl'), function(i){
+          items[i] = $(this).find('dt img');
+          items[i].on('click', function(){
+            slideBox(i);
+          });
+          boxes[i] = $(this).find('dd');
+          boxes[i].prop('mode','close');
+        });
+      }
+
+      function get_asset(index){
+        switch (index) {
+          case 0:
+            '<%= asset_path("4-01/menu0.png") %>';
+            break;
+          case 1:
+            '<%= asset_path("4-01/menu1.png") %>';
+            break;
+          case 2:
+            '<%= asset_path("4-01/menu2.png") %>';
+            break;
+          default:
+            break;
+        }
+      }
+
+
+      init();
+    }
+
+    accordionMenu($('#accordion'));
+  });
+
+  $(function () {
+
+    function pulldownMenu(target){
+
+      $.each(target.find('li:has(ul)'), function (index) {
+
+        var btn = $(this).find('p');
+        var menuArea = $(this).find('div');
+        var menuList = $(this).find('li');
+
+        $.each(menuList, function (id) {
+          $(menuList[id]).on({
+            'mouseover': function () {
+              $(this).find('img').attr('src', 'images/sub_menu'+index+'_'+id+'_ov.png');
+            },
+            'mouseout': function () {
+              $(this).find('img').attr('src', 'images/sub_menu'+index+'_'+id+'.png');
+            }
+          });
+        });
+
+        $(this).on('mouseleave', function () {
+          menuArea.stop().slideUp();
+        });
+
+        btn.on('mouseenter', function () {
+          menuArea.stop().slideDown();
+        });
+      });
+    }
+
+    pulldownMenu($('#pulldown'));
+  });
+
+  $(function () {
+
+    function floatingMenu(target, boxTop, boxH){
+
+      var menuH = target.height();
+      var scrollY = 0;
+      var posTop = 0;
+      var menuList = target.find('li');
+      var sub_menu_ov = '<%= asset_path("4-03/sub_menu_ov.png") %>';
+      var sub_menu = '<%= asset_path("4-03/sub_menu.png") %>';
+
+      menuList.on({
+        'mouseover': function(){$(this).find('img').attr('src', sub_menu_ov );},
+        'mouseout': function(){$(this).find('img').attr('src', sub_menu );}
+      });
+
+      $(window).scroll(function(){
+        scrollY = $(window).scrollTop();
+        if( scrollY-boxTop > boxH-menuH ){
+          posTop = boxH-menuH;
+        }else{
+          posTop = scrollY-boxTop;
+        }
+        target.stop().animate({'top':posTop}, 500);
+      });
+
+    }
+
+    floatingMenu($('#floating'), $('#content').offset().top, $('#content').height() );
+
+  });
+
+  $(function () {
+
+    function setRollover(className, imgName) {
+
+      $.each($('.' + className), function () {
+
+        var src = $(this).attr('src');
+        var ext = src.substring(src.lastIndexOf('.'));
+        var ovsrc = src.replace(ext, imgName + ext);
+        $(this).on({
+          'mouseover': function (e) {
+            $(e.target).attr('src', ovsrc);
+          },
+          'mouseout': function (e) {
+            $(e.target).attr('src', src);
+          }
+        });
+      });
+    }
+
+    setRollover('rollover','_ov');
+
+  });
+
+  $(function () {
+    function setFade(className) {
+      $.each($('.'+className), function () {
+        $(this).on({
+          'mouseover': function(e){
+            $(e.target).stop().fadeTo(600, 0.4);
+          },
+          'mouseout': function (e) {
+            $(e.target).stop().fadeTo(300, 1);
+          }
+        });
+      });
+    }
+    setFade('fade');
+  });
+
+  $(function () {
+
+    function setCrossFade(className, imgName){
+
+      var target;
+
+      function create(){
+        var src = target.attr('src');
+        var ext = src.substring(src.lastIndexOf('.'));
+        var ovsrc = src.replace(ext, imgName+ext);
+        target.wrap('<span class="img-wrap"></span>');
+        target.before('<img src="'+ovsrc+'" class="ovImg">');
+      }
+
+      function setStyle(){
+        target.parent().css({
+          'display': 'inline-block',
+          'position': 'relative'
+        });
+        target.css({
+          'position': 'relative'
+        });
+        target.parent().find('.ovImg').css({
+          'position': 'absolute',
+          'top': 0
+        });
+      }
+
+      function setEvent(target){
+        target.parent().on({
+          'mouseover': function(){
+            target.parent().find('.ovImg').stop().fadeTo(600, 1);
+            target.stop().fadeTo(600,0);
+          },
+          'mouseout': function () {
+            target.parent().find('.ovImg').stop().fadeTo(600, 0);
+            target.stop().fadeTo(600, 1);
+          }
+        });
+      }
+
+      function init(){
+        $.each($('.'+className), function () {
+          target = $(this);
+          create();
+          setStyle();
+          setEvent(target);
+        });
+      }
+
+      init();
+    }
+
+    setCrossFade('crossfade', '_ov');
+  })
+
+});
