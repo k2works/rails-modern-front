@@ -9,9 +9,13 @@ $(document).on("turbolinks:load", function() {
         var checkAll = function(){
             var errorCount = 0;
             checkEmptyText( items[0], '名前をご入力ください。');
+            if( items[0].prop('isSuccess')) checkFormatText( items[0], 0, '入力フォーマットが正しくありません。');
             checkEmptyText( items[1], 'ふりがなをご入力ください。');
+            if( items[1].prop('isSuccess')) checkFormatText( items[1], 0, '入力フォーマットが正しくありません。');
             checkEmptyText( items[2], '電話番号をご入力ください。');
+            if( items[2].prop('isSuccess')) checkFormatText( items[2], 0, '入力フォーマットが正しくありません。');
             checkEmptyText( items[3], 'メールアドレスをご入力ください。');
+            if( items[3].prop('isSuccess')) checkFormatText( items[3], 0, '入力フォーマットが正しくありません。');
             checkEmptyText( items[4], 'お問い合わせ内容をご入力ください。');
             for( var i=0; i<items.length; i++){
                 if( items[i].prop('isSuccess') == false ){
@@ -23,6 +27,49 @@ $(document).on("turbolinks:load", function() {
             }
         };
 
+        function checkFormatText(selector, mode, msg){
+            var value = selector.val();
+            switch(mode){
+                //全角のみ
+                case 0:
+                    if(value.match(/^[^ -~｡-ﾟ]*$/)) {
+                        selector.prop('isSuccess', true);
+                    }else{
+                        selector.prop('isSuccess', false);
+                    }
+                    break;
+                //ふりがなのみ
+                case 1:
+                    if(value.match(/^[\u3040-\u309F]+$/)){
+                        selector.prop('isSuccess', true);
+                    }else{
+                        selector.prop('isSuccess', false);
+                    }
+                    break;
+                //半角数字のみ
+                case 2:
+                    if(value.match(/^[0-9]*$/)){
+                        selector.prop('isSuccess', true);
+                    }else{
+                        selector.prop('isSuccess', false);
+                    }
+                    break;
+                //メールアドレスかどうか
+                case 3:
+                    if(value.match(/^[a-zA-Z0-9!$&*.=^'|~#%'+\/?_{}-]+@([a-zA-Z0-9_-]+\.)+[a-zA-Z]{2,6}$/)){
+                        selector.prop('isSuccess', true);
+                    }else{
+                        selector.prop('isSuccess', false);
+                    }
+                    break;
+            }
+            if(selector.prop('isSuccess') == false ){
+                addErrorMessage(selector, msg);
+            }else{
+                removeErrorMessage(selector);
+            }
+        }
+
         var addErrorMessage = function(selector, msg){
             removeErrorMessage(selector);
             selector.before('<span class="'+ERROR_MESSAGE_CLASSNAME+'">'+msg+'</span>');
@@ -32,7 +79,7 @@ $(document).on("turbolinks:load", function() {
         var removeErrorMessage = function(selector){
             var msgSelector = selector.parent().find('.'+ERROR_MESSAGE_CLASSNAME);
             if( msgSelector.length != 0){
-                msgSelector.remote();
+                msgSelector.remove();
                 selector.removeClass(ERROR_INPUT_CLASSNAME);
             }
         };
