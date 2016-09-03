@@ -10,4 +10,7 @@ class JquerySampleController < ApplicationController
 
   def jquery_sample_text
   end
+
+  def jquery_sample_image
+  end
 end

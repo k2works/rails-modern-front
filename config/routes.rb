@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'jquery_sample/jquery_sample_image'
   get 'jquery_sample/jquery_sample_text'
   get 'jquery_sample/jquery_sample_form'
   get 'jquery_sample/jquery_sample_menu'
