@@ -68,4 +68,55 @@ $(document).on("turbolinks:load", function() {
         setTextTicker($('.tickerList'));
 
     });
+
+    $(function () {
+
+        var kerningList = {};
+        kerningList['」「'] = -1;
+        kerningList['*「'] = -0.5;
+        kerningList['」*'] = -0.5;
+        kerningList['*（'] = -0.5;
+        kerningList['）*'] = -0.5;
+        kerningList['、*'] = -0.5;
+        kerningList['。*'] = -0.5;
+        kerningList['。（'] = -1;
+
+        function setKerning(target) {
+
+            var html = target.html();
+            var newHtml = '';
+            var value;
+            var str;
+            var nextstr;
+
+            for( var i=0; i<html.length; i++){
+                value = '';
+                str = html.charAt(i);
+                nextstr = html.charAt(i+1);
+                if( kerningList[str+nextstr] ){
+                    value = kerningList[str+nextstr];
+                }else{
+                    if( kerningList[str+'*']){
+                        value = kerningList[str+'*'];
+                    }
+                    if( kerningList['*'+nextstr] ){
+                        value = kerningList['*'+nextstr];
+                    }
+                }
+                if( value == '' ){
+                    newHtml += str;
+                }else{
+                    newHtml += '<span style="letter-spacing:'+value+'em">'+str+'</span>';
+                }
+            }
+
+            target.html(newHtml);
+        }
+
+        $.each( $('.kerning'), function () {
+            setKerning($(this));
+        });
+
+    });
+
 });
