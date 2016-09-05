@@ -12,5 +12,9 @@ class JquerySampleController < ApplicationController
   end
 
   def jquery_sample_image
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 end

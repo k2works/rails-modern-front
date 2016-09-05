@@ -1,6 +1,6 @@
 $(document).on("turbolinks:load", function() {
 
-    $(function () {
+  $(function () {
 
         function loadImages() {
             var srcList = [];
@@ -45,7 +45,7 @@ $(document).on("turbolinks:load", function() {
 
     });
 
-    $(function () {
+  $(function () {
 
         function loadImages2(){
             var srcList = [];
@@ -218,5 +218,94 @@ $(document).on("turbolinks:load", function() {
 
     loadImages4();
 
-  })
+  });
+
+  $(function(){
+
+    function loadImages5(){
+
+      var srcList = []; //画像の参照先を格納する配列
+      var loadIndex = 0; //読み込み画像インデックス
+
+      //画像を表示する
+      function open(){
+        $('#main5').find('img').css({
+          'display': 'block',
+          'opacity': 0
+        }).animate({'opacity': 1}, 1200);
+      }
+
+      //すべての画像の読み込み完了
+      function complete(){
+        $('#loading4').fadeOut(1200, function(){
+          $('#loading4').remove();
+          open();
+        });
+      }
+
+      //画像の読み込み完了
+      function loaded(){
+        if( loadIndex != (srcList.length-1) ){
+          loadIndex++;
+          imgLoad();
+        }
+        var per = (loadIndex / (srcList.length-1) ) * 100;
+        var txt; //パーセンテージのテキストを代入する
+        var getParsent = function(){
+          txt = parseInt( $('#loadingText2').text() );
+          if( per > txt ){
+            txt++;
+            if( txt >= per ) txt = Math.floor(per);
+            $('#loadingText2').text(txt+'%');
+            setTimeout(getParsent, 100);
+          }
+        };
+        setTimeout(getParsent, 100);
+        $('#loadingBar3').stop().animate({'width': per+'%'}, 300, function(){
+          if( per >= 100 ) complete();
+        });
+      }
+
+      //画像の読み込み
+      function imgLoad(){
+        var img = new Image();
+        $(img).on('load', loaded).attr('src', srcList[loadIndex]);
+      }
+
+      //初期設定
+      function init(){
+        $('#main5').find('img').each(function(index){
+          srcList[index] = $(this).attr('src');
+        });
+        $('<p>', {
+          'id': 'loading4',
+          'html': '<span id="loadingBar3"></span><span id="loadingText2">0%</span>'
+        }).appendTo('body');
+        $('#loadingBar3').css('width', '0%');
+        imgLoad();
+      }
+
+      //JSONデータの読み込み
+      function loadJSON(){
+        $.getJSON('jquery_sample_image.json', function(data){
+          var items = [];
+          for(var i in data.entry){
+            items.push( '<li><img src="' + data.entry[i].img_src + '" alt="' + data.entry[i].title + '"></li>' );
+          }
+          $('<ul>', {
+            'class': 'imgList',
+            'html': items.join('')
+          }).appendTo('#main5');
+          init();
+        });
+      }
+
+      loadJSON();
+
+    }
+
+    loadImages5();
+
+  });
+
 });
