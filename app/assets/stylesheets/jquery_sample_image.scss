@@ -38,6 +38,46 @@ body{
   height:1%;
 }
 
-#main ul{
+#main2 ul{
+  display:block;
+}
+
+#main2{
+  width: 960px;
+  margin: 0 auto;
+  padding: 10px 0;
+  text-align: left;
+}
+
+#main2 li{
+  float: left;
+  width: 230px;
+  margin: 5px;
+  list-style: none;
+}
+
+#main2 li img{
+  display: none;
+  width: 230px;
+  height: 167px;
+}
+
+#main2 ul:after{
+  content:".";
+  display:block;
+  clear:both;
+  height:0;
+  visibility:hidden;
+}
+
+#main2 ul{
+  display:inline-block;
+}
+
+* html #main2 ul{
+  height:1%;
+}
+
+#main2 ul{
   display:block;
 }
