@@ -96,4 +96,59 @@ $(document).on("turbolinks:load", function() {
 
         loadImages2();
     });
+
+  $(function () {
+
+    function loadImages3(){
+      var srcList = [];
+      var loadIndex = 0;
+
+      function open(){
+        $('#main3').find('img').css({
+          'display': 'block',
+          'opacity': 0
+        }).animate({'opacity': 1}, 1200);
+      }
+
+      function complete() {
+        $('#loading2').fadeOut(1200, function () {
+          $('#loading2').remove();
+          open();
+        })
+      }
+
+      function loaded() {
+        if( loadIndex != (srcList.length-1)){
+          loadIndex++;
+          imgLoad();
+        }
+        var per = (loadIndex / (srcList.length-1)) * 100;
+        $('#loadingBar').stop().animate({'width': per+'%'}, 1200, function () {
+          if( per >= 100 ) complete();
+        });
+      }
+
+      function imgLoad(){
+        var img = new Image();
+        $(img).on('load', loaded).attr('src', srcList[loadIndex]);
+      }
+
+      function init() {
+        $('#main3').find('img').each(function (index) {
+          srcList[index] = $(this).attr('src')
+        });
+        $('<p>',{
+          'id': 'loading2',
+          'html': '<span id="loadingBar"></span>'
+        }).appendTo('body');
+        $('#loadingBar').css('width','0%');
+        imgLoad();
+      }
+
+      init();
+
+    }
+
+    loadImages3();
+  });
 });
