@@ -85,7 +85,7 @@ $(document).on("turbolinks:load", function() {
                 });
                 $('<p>',{
                     'id': 'loading',
-                    'html': '<%= image_tag("7/loading.gif") %>'
+                  'html': '<%= image_tag("7/loading.gif") %>'
                 }).appendTo('body');
                 imgLoad();
             }
@@ -402,4 +402,56 @@ $(document).on("turbolinks:load", function() {
 
   });
 
+  $(function () {
+
+    function loadImages7(){
+
+      var srcList = [];
+      var loadIndex = 0;
+
+      function complete(){
+        $('#main7').find('.loading').remove;
+      }
+
+      function loaded(){
+        var loading = $($('#main7').find('.loading')[loadIndex]);
+        var img = $($('#main7').find('.photo')[loadIndex]);
+        loading.fadeOut(200);
+        img.css({
+          'display': 'block',
+          'opacity': 0
+        }).animate({'opacity': 1}, 800, function(){
+          loadIndex++;
+          if( loadIndex >= srcList.length ){
+            complete();
+          }else{
+            imgLoad();
+          }
+        });
+      }
+
+      function imgLoad(){
+        var img = new Image();
+        $(img).on('load', loaded).attr('src', srcList[loadIndex]);
+      }
+
+      function init(){
+        $('#main7').find('img').each(function (index) {
+          $(this).addClass('photo');
+          srcList[index] = $(this).attr('src');
+        });
+        $('<p>',{
+          'class': 'loading',
+          'html': '<%= image_tag("7/loading.gif") %>'
+        }).appendTo( $('#main7').find('li'));
+        imgLoad();
+      }
+
+      init();
+
+    }
+
+    loadImages7();
+
+  })
 });

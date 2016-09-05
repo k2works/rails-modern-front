@@ -362,3 +362,53 @@ body{
   height: 1px;
   background: #333;
 }
+
+#main7 ul{
+  display:block;
+}
+
+#main7{
+  width: 960px;
+  margin: 0 auto;
+  padding: 10px 0;
+  text-align: left;
+}
+
+#main7 li{
+  float: left;
+  width: 230px;
+  margin: 5px;
+  list-style: none;
+}
+
+#main7 li img{
+  display: none;
+  width: 230px;
+  height: 167px;
+}
+
+#main7 ul:after{
+  content:".";
+  display:block;
+  clear:both;
+  height:0;
+  visibility:hidden;
+}
+
+#main7 ul{
+  display:inline-block;
+}
+
+* html #main7 ul{
+  height:1%;
+}
+
+#main7 ul{
+  display:block;
+}
+
+.loading img{
+  display: block !important;
+  width: 32px !important;
+  height: 32px !important;
+}
