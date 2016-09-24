@@ -1,24 +1,22 @@
 $(document).on("turbolinks:load", function() {
     $(function(){
 
-        function setModalPhotos(target){
+        function setModalElement(target){
 
-            var srcList = {}; //画像の参照先を格納するオブジェクト
-            var groupName; //グループ名
-            var groupIndex; //グループID
+            var nowIndex = 0; //現在表示されているhtmlのインデックス
+            var idList = []; //id名を格納する配列
 
-            //モーダルウィンドウ内の画像を切り替える
-            function changeModalPhoto(num){
-                var index = groupIndex + num;
-                openModal( groupName, index);
+            //モーダルウィンドウ内のElementを切り替える
+            function changeModalElement(num){
+                var index = nowIndex + num;
+                openModal(index);
             };
 
             //モーダルウィンドウのリサイズ
-            function resizeModal(imgW, imgH){
+            function resizeModal(){
                 var ww = $(window).width();
                 var wh = $(window).height();
                 var dh = $(document).height();
-                if( $.isNumeric(imgW) && $.isNumeric(imgH) ) $('#modalBox').width( imgW ).height( imgH );
                 var boxTop = Math.floor((wh-$('#modalBox').innerHeight())/2)+$(window).scrollTop();
                 var boxLeft = Math.floor((ww-$('#modalBox').innerWidth())/2);
                 $('#modalBox').offset({ top: boxTop, left: boxLeft });
@@ -28,14 +26,14 @@ $(document).on("turbolinks:load", function() {
 
             //モーダルウィンドウ内のコントロールボタンを設定する
             function checkModalControl(){
-                $('#modalPrevBtn').on('click', function(){changeModalPhoto(-1);});
-                $('#modalNextBtn').on('click', function(){changeModalPhoto(1)});
-                switch(groupIndex){
+                $('#modalPrevBtn').on('click', function(){changeModalElement(-1);});
+                $('#modalNextBtn').on('click', function(){changeModalElement(1)});
+                switch(nowIndex){
                     case 0:
                         $('#modalPrevBtn').hide().off('click');
                         $('#modalNextBtn').fadeIn();
                         break;
-                    case srcList[groupName].length-1:
+                    case target.find('a').length-1:
                         $('#modalPrevBtn').fadeIn();
                         $('#modalNextBtn').hide().off('click');
                         break;
@@ -46,35 +44,18 @@ $(document).on("turbolinks:load", function() {
                 };
             };
 
-            //モーダルウィンドウ内の画像を読み込み完了
-            function loadedModal(src, w, h){
-                $('#modalPicture').attr('src', src);
-                $('#modalLoading').fadeOut( function(){
-                    $('#modalPicture').fadeIn();
-                    checkModalControl();
-                } );
-                resizeModal(w, h);
-            };
-
-            //モーダルウィンドウ内の画像を読み込む
-            function loadModal(src){
-                var img = new Image();
-                $(img).on('load', function(){ loadedModal(src, img.width, img.height); }).attr('src', src);
-            };
-
             //モーダルウィンドウを表示する
-            function openModal(group, index){
-                var boxW = ( $('#modalBox').width() > 0 ) ? $('#modalBox').width() : 80 ;
-                var boxH = ( $('#modalBox').height() > 0 ) ? $('#modalBox').height() : 80 ;
-                groupName = group;
-                groupIndex = index;
+            function openModal(index){
+                if( !$.isEmptyObject( $('#modalHtml').html() ) ){
+                    $(idList[nowIndex]).html( $('#modalHtml').contents() );
+                };
+                nowIndex = index;
+                $('#modalHtml').html( $(idList[nowIndex]).contents() );
                 closeModalControl();
-                $('#modalPicture').hide();
                 $('#modalCloseBtn').fadeIn();
-                $('#modalLoading').fadeIn();
                 $('#modalContent').fadeIn();
-                resizeModal(boxW, boxH);
-                loadModal(srcList[groupName][groupIndex]);
+                resizeModal();
+                checkModalControl();
             };
 
             //モーダルウィンドウを非表示にする
@@ -83,7 +64,7 @@ $(document).on("turbolinks:load", function() {
             };
 
             //モーダルウィンドウ内のコントロールを非表示にする
-            var closeModalControl = function closeModalControl(){
+            function closeModalControl(){
                 $('#modalPrevBtn').hide().off('click');
                 $('#modalNextBtn').hide().off('click');
             };
@@ -92,7 +73,7 @@ $(document).on("turbolinks:load", function() {
             function createModal(){
                 $('<div>', {
                     'id': 'modalContent',
-                    'html': '<div id="modalOverlay"></div><div id="modalBox"><p id="modalPictureBox"><img id="modalPicture"></p><p id="modalCloseBtn"></p><p id="modalPrevBtn"></p><p id="modalNextBtn"></p><p id="modalLoading"></p></div>'
+                    'html': '<div id="modalOverlay"></div><div id="modalBox"><div id="modalHtml"></div><p id="modalCloseBtn"></p><p id="modalPrevBtn"></p><p id="modalNextBtn"></p></div>'
                 }).appendTo('body');
                 $('#modalOverlay').css({
                     'background': '#000',
@@ -104,12 +85,9 @@ $(document).on("turbolinks:load", function() {
             //モーダルウィンドウ内のイベントを設定する
             function setModalEvent(){
                 target.find('a').each(function(index){
-                    var groupName = $(this).attr('data-group');
-                    if( srcList[groupName] == null ) srcList[groupName] = [];
-                    srcList[groupName].push( $(this).attr('href') );
-                    $(this).prop( 'index', srcList[groupName].length-1 );
+                    idList[index] = $(this).attr('href');
                     $(this).on('click', function(){
-                        openModal( groupName, $(this).prop('index') );
+                        openModal(index);
                         return false;
                     });
                 });
@@ -128,7 +106,7 @@ $(document).on("turbolinks:load", function() {
 
         };
 
-        setModalPhotos($('#photos'));
+        setModalElement($('#photos'));
 
     });
 });

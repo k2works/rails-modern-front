@@ -21,20 +21,12 @@ body{
 #photos li{
   float: left;
   width: 220px;
-  margin: 10px;
+  margin: 0 10px;
   list-style: none;
 }
 
 #photos li img{
   border: 10px solid #ccc;
-}
-
-#photos li .black{
-  border: 10px solid #333;
-}
-
-#photos li .red{
-  border: 10px solid #933;
 }
 
 #photos:after{
@@ -81,7 +73,7 @@ MODAL STYLE
   background: #fff;
 }
 
-#modalPictureBox{
+#modalHtml{
   overflow: hidden;
 }
 
@@ -92,7 +84,7 @@ MODAL STYLE
   right: -38px;
   width: 38px;
   height: 38px;
-  background: image-url("8-2/btn_close.png") 0 0 no-repeat;
+  background: image-url("8-5/btn_close.png") 0 0 no-repeat;
   cursor: pointer;
 }
 
@@ -104,7 +96,7 @@ MODAL STYLE
   width: 38px;
   height: 38px;
   margin: -19px 0 0;
-  background: image-url("8-2/prev.png") 0 0 no-repeat;
+  background: image-url("8-5/prev.png") 0 0 no-repeat;
   cursor: pointer;
 }
 
@@ -116,17 +108,10 @@ MODAL STYLE
   width: 38px;
   height: 38px;
   margin: -19px 0 0;
-  background: image-url("8-2/next.png") 0 0 no-repeat;
+  background: image-url("8-5/next.png") 0 0 no-repeat;
   cursor: pointer;
 }
 
-#modalLoading{
+.hide{
   display: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 32px;
-  height: 32px;
-  margin: -16px 0 0 -16px;
-  background: image-url("8-2/loading.gif") 0 0 no-repeat;
 }
