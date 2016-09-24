@@ -63,4 +63,8 @@ class JquerySampleController < ApplicationController
       format.xml{ render xml: @sample }
     end
   end
+
+  def jquery_sample_modal
+
+  end
 end
