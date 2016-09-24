@@ -3,12 +3,14 @@ $(document).on("turbolinks:load", function() {
 
         function setModalPhotos(target){
 
-            var nowIndex = 0; //現在表示されている画像のインデックス
+            var srcList = {}; //画像の参照先を格納するオブジェクト
+            var groupName; //グループ名
+            var groupIndex; //グループID
 
             //モーダルウィンドウ内の画像を切り替える
             function changeModalPhoto(num){
-                var index = nowIndex + num;
-                openModal($(target.find('a')[index]).attr('href'), index);
+                var index = groupIndex + num;
+                openModal( groupName, index);
             };
 
             //モーダルウィンドウのリサイズ
@@ -28,12 +30,12 @@ $(document).on("turbolinks:load", function() {
             function checkModalControl(){
                 $('#modalPrevBtn').on('click', function(){changeModalPhoto(-1);});
                 $('#modalNextBtn').on('click', function(){changeModalPhoto(1)});
-                switch(nowIndex){
+                switch(groupIndex){
                     case 0:
                         $('#modalPrevBtn').hide().off('click');
                         $('#modalNextBtn').fadeIn();
                         break;
-                    case target.find('a').length-1:
+                    case srcList[groupName].length-1:
                         $('#modalPrevBtn').fadeIn();
                         $('#modalNextBtn').hide().off('click');
                         break;
@@ -61,17 +63,18 @@ $(document).on("turbolinks:load", function() {
             };
 
             //モーダルウィンドウを表示する
-            function openModal(src, index){
+            function openModal(group, index){
                 var boxW = ( $('#modalBox').width() > 0 ) ? $('#modalBox').width() : 80 ;
                 var boxH = ( $('#modalBox').height() > 0 ) ? $('#modalBox').height() : 80 ;
-                nowIndex = index;
+                groupName = group;
+                groupIndex = index;
                 closeModalControl();
                 $('#modalPicture').hide();
                 $('#modalCloseBtn').fadeIn();
                 $('#modalLoading').fadeIn();
                 $('#modalContent').fadeIn();
                 resizeModal(boxW, boxH);
-                loadModal(src);
+                loadModal(srcList[groupName][groupIndex]);
             };
 
             //モーダルウィンドウを非表示にする
@@ -80,7 +83,7 @@ $(document).on("turbolinks:load", function() {
             };
 
             //モーダルウィンドウ内のコントロールを非表示にする
-            function closeModalControl(){
+            var closeModalControl = function closeModalControl(){
                 $('#modalPrevBtn').hide().off('click');
                 $('#modalNextBtn').hide().off('click');
             };
@@ -101,8 +104,12 @@ $(document).on("turbolinks:load", function() {
             //モーダルウィンドウ内のイベントを設定する
             function setModalEvent(){
                 target.find('a').each(function(index){
+                    var groupName = $(this).attr('data-group');
+                    if( srcList[groupName] == null ) srcList[groupName] = [];
+                    srcList[groupName].push( $(this).attr('href') );
+                    $(this).prop( 'index', srcList[groupName].length-1 );
                     $(this).on('click', function(){
-                        openModal( $(this).attr('href'), index );
+                        openModal( groupName, $(this).prop('index') );
                         return false;
                     });
                 });

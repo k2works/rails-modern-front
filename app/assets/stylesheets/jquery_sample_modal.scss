@@ -21,12 +21,20 @@ body{
 #photos li{
   float: left;
   width: 220px;
-  margin: 0 10px;
+  margin: 10px;
   list-style: none;
 }
 
 #photos li img{
   border: 10px solid #ccc;
+}
+
+#photos li .black{
+  border: 10px solid #333;
+}
+
+#photos li .red{
+  border: 10px solid #933;
 }
 
 #photos:after{

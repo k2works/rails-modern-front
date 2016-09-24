@@ -1,7 +1,15 @@
-<h1>[モーダルウィンドウ]画像の切り替え</h1>
+<h1>[モーダルウィンドウ]画像のグループ化</h1>
 <ul id="photos">
-  <li><%= link_to(image_tag("8-2/tn0.jpg"),asset_path("8-1/tn0.jpg")) %> </li>
-  <li><%= link_to(image_tag("8-2/tn1.jpg"),asset_path("8-1/tn1.jpg")) %> </li>
-  <li><%= link_to(image_tag("8-2/tn2.jpg"),asset_path("8-1/tn2.jpg")) %> </li>
-  <li><%= link_to(image_tag("8-2/tn3.jpg"),asset_path("8-1/tn3.jpg")) %> </li>
+  <li><%= link_to(image_tag("8-3/tn0.jpg"), asset_path("8-3/photo0.jpg"), data: {group:"groupB"}) %></li>
+  <li><%= link_to(image_tag("8-3/tn1.jpg", class: "black"), asset_path("8-3/photo1.jpg"), data: {group:"groupB"}) %></li>
+  <li><%= link_to(image_tag("8-3/tn2.jpg", class: "red"), asset_path("8-3/photo2.jpg"), data: {group:"groupC"}) %></li>
+  <li><%= link_to(image_tag("8-3/tn3.jpg"), asset_path("8-3/photo3.jpg"), data: {group:"groupA"}) %></li>
+  <li><%= link_to(image_tag("8-3/tn4.jpg", class: "black"), asset_path("8-3/photo4.jpg"), data: {group:"groupB"}) %></li>
+  <li><%= link_to(image_tag("8-3/tn5.jpg", class: "red"), asset_path("8-3/photo5.jpg"), data: {group:"groupC"}) %></li>
+  <li><%= link_to(image_tag("8-3/tn6.jpg"), asset_path("8-3/photo6.jpg"), data: {group:"groupA"}) %></li>
+  <li><%= link_to(image_tag("8-3/tn7.jpg", class: "black"), asset_path("8-3/photo7.jpg"), data: {group:"groupB"}) %></li>
+  <li><%= link_to(image_tag("8-3/tn8.jpg", class: "red"), asset_path("8-3/photo8.jpg"), data: {group:"groupC"}) %></li>
+  <li><%= link_to(image_tag("8-3/tn9.jpg"), asset_path("8-3/photo9.jpg"), data: {group:"groupA"}) %></li>
+  <li><%= link_to(image_tag("8-3/tn10.jpg", class: "black"), asset_path("8-3/photo10.jpg"), data: {group:"groupB"}) %></li>
+  <li><%= link_to(image_tag("8-3/tn11.jpg", class: "red"), asset_path("8-3/photo11.jpg"), data: {group:"groupC"}) %></li>
 </ul>
