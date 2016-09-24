@@ -67,4 +67,8 @@ class JquerySampleController < ApplicationController
   def jquery_sample_modal
 
   end
+
+  def jquery_sample_responsive
+
+  end
 end
